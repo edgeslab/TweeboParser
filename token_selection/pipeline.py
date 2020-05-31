@@ -24,10 +24,11 @@ from __future__ import division
 import viterbi, sys
 
 import codecs
+import io
 
 def print_line_withmodification(cline, tag):
     s = ""
-    for i in xrange(0,13):
+    for i in range(0,13):
         s += (cline[i] + "\t")
     s += tag
     print(s)
@@ -114,14 +115,16 @@ def main(testfile, featsfile):
             print_line_withmodification(contents[i][j],tags[j])
             if tags[j] == tagseqs[i][j]:
                 acc += 1
-        print 
+        print()
         tot += len(tags)
         #print ' '.join(sent)
         #print ' '.join(tags), '\n', ' '.join(tagseqs[i])
         #print
     #sys.stderr.write(str(acc/tot) + "\n")
 if __name__ == "__main__":
-    sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
-    sys.stderr = codecs.getwriter('utf-8')(sys.stderr)
+    sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='UTF-8', line_buffering=True)
+    sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='UTF-8', line_buffering=True)
+    # sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
+    # sys.stderr = codecs.getwriter('utf-8')(sys.stderr)
     main(sys.argv[1], sys.argv[2])
 
